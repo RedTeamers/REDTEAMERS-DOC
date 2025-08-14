@@ -1,0 +1,115 @@
+---
+title: "Red Teaming Cheat Sheet"
+description: "A comprehensive reference for Red Team operators"
+---
+
+# 🛡 Red Teaming Cheat Sheet
+
+This cheat sheet serves as a **central hub** for Red Team operators, pentesters, and security researchers, providing quick access to **core concepts, tools, and techniques**.
+
+---
+
+## 1️⃣ Foundations
+
+### Core IT & Networking
+- **OSI Model**: Physical → Data Link → Network → Transport → Session → Presentation → Application
+- **Common Ports**: `22 SSH`, `80 HTTP`, `443 HTTPS`, `3389 RDP`, `445 SMB`
+- **Protocols**: HTTP/S, SMB, DNS, ICMP, RDP
+- **VPN & Tunneling**: OpenVPN, WireGuard, SSH tunnels
+
+### Operating Systems
+- **Windows Internals**: Registry hives, WinAPI basics, Active Directory structure
+- **Linux Basics**: `systemd`, file permissions, cron jobs
+- **MacOS Security**: Gatekeeper, SIP
+
+---
+
+## 2️⃣ Red Team Planning & Methodology
+- **Red vs Purple vs Blue**: Understand engagement goals
+- **Rules of Engagement (ROE)**: Define scope, constraints, and comms
+- **Adversary Emulation**: Map techniques to [MITRE ATT&CK](https://attack.mitre.org/)
+- **Frameworks**: Cyber Kill Chain, Diamond Model
+
+---
+
+## 3️⃣ Reconnaissance & OSINT
+
+### Passive Recon
+- **Tools**: `whois`, `dnsdumpster`, [Shodan](https://shodan.io), [Censys](https://censys.io)
+- **Targets**: Subdomains, employee emails, tech stack
+
+### Active Recon
+- **Network**: `nmap -sV -p- <target>`
+- **Web**: `whatweb`, `dirsearch`
+
+---
+
+## 4️⃣ Initial Access
+- **Phishing**: Spear phishing with malicious attachments or links
+- **Exploitation**: OWASP Top 10 → SQLi, XSS, RCE
+- **Tools**: Metasploit, Cobalt Strike, Sliver
+- **Physical Access**: Tailgating, rogue devices
+
+---
+
+## 5️⃣ Privilege Escalation
+
+### Windows
+- **Token Impersonation**: `incognito` in Meterpreter
+- **Kerberos Attacks**: Pass-the-Ticket, Golden Ticket
+
+### Linux
+- **SUID Binaries**: `find / -perm -4000 -type f 2>/dev/null`
+- **Cron Jobs**: Weak file permissions
+
+---
+
+## 6️⃣ Lateral Movement
+- **Techniques**: Pass-the-Hash, RDP pivoting, WinRM
+- **Tools**: `crackmapexec`, `smbclient`, `evil-winrm`
+
+---
+
+## 7️⃣ Persistence
+- **Windows**: Registry Run keys, Scheduled Tasks, WMI event subscriptions
+- **Linux**: systemd services, crontab entries
+
+---
+
+## 8️⃣ Evasion & OPSEC
+- **AV/EDR Evasion**: LOLBAS (`rundll32`, `mshta`)
+- **Binary Obfuscation**: `obfuscator-llvm`, custom packers
+- **Network Evasion**: Domain fronting, traffic shaping
+
+---
+
+## 9️⃣ Exfiltration
+- **Compression & Encryption**: `tar -czf data.tar.gz /data && gpg -c data.tar.gz`
+- **Covert Channels**: DNS tunneling, HTTPS POST
+
+---
+
+## 🔟 Reporting & Debrief
+- **Executive Summary**: High-level overview for management
+- **Technical Report**: Full detail with commands & evidence
+- **Remediation Guidance**: Actionable fixes
+
+---
+
+## 📌 Quick Reference Commands
+
+```bash
+# Full TCP scan with service detection
+nmap -sV -p- 10.0.0.0/24
+
+# Find SUID binaries
+find / -perm -4000 -type f 2>/dev/null
+
+# Enumerate subdomains
+subfinder -d target.com
+
+# SMB share listing
+smbclient -L \\\\10.0.0.5\\ -U user
+
+# Simple Python HTTP server
+python3 -m http.server 8080
