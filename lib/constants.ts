@@ -1,1 +1,1 @@
-export const SITE = 'https://news.keystone.dz'
+export const SITE = 'https://doc.redteamers.io'

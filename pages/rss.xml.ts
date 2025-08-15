@@ -1,7 +1,7 @@
 // pages/rss.xml.ts
 export const config = { runtime: 'experimental-edge' }
 
-const SITE = 'https://news.keystone.dz'
+const SITE = 'https://doc.redteamers.io'
 
 export default async function handler() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

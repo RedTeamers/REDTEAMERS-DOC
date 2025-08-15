@@ -4,7 +4,7 @@ import React from 'react'
 const SITE = 'https://doc.redteamers.io'
 
 const themeConfig = {
-  logo: <span>Keystone News</span>,
+  logo: <span>Red Teamers Docs</span>,
   project: { link: 'https://github.com/RedTeamers' },
   docsRepositoryBase: 'https://github.com/RedTeamers',
   footer: { text: '© ' + new Date().getFullYear() + ' RedTeamers' },
