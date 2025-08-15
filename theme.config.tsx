@@ -1,7 +1,7 @@
 import { useConfig } from 'nextra-theme-docs'
 import React from 'react'
 
-const SITE = 'https://doc.redteamers.io'
+const SITE = 'https://redteamer.wiki'
 
 const themeConfig = {
   logo: <span>Red Teamers Docs</span>,
@@ -11,7 +11,7 @@ const themeConfig = {
   search: { placeholder: 'Rechercher des articles…' },
   head: () => {
     const { frontMatter } = useConfig()
-    const title = frontMatter.title ?? 'Red Teamers Docs'
+    const title = frontMatter.title ?? 'Red Teamers Wiki'
     const desc = frontMatter.description ?? 'Actus, analyses et sécurité'
     return (
       <>
