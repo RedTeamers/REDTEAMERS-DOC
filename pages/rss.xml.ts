@@ -1,10 +1,9 @@
-import type { NextRequest } from 'next/server'
-
-export const config = { runtime: 'edge' }
+// pages/rss.xml.ts
+export const config = { runtime: 'experimental-edge' }
 
 const SITE = 'https://news.keystone.dz'
 
-export default async function handler(req: NextRequest) {
+export default async function handler() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
   <rss version="2.0">
     <channel>
