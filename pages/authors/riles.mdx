@@ -3,113 +3,114 @@ title: "Red Teaming Cheat Sheet"
 description: "A comprehensive reference for Red Team operators"
 ---
 
-# 🛡 Red Teaming Cheat Sheet
+# RedTeamer.wiki — Introduction & Values
 
-This cheat sheet serves as a **central hub** for Red Team operators, pentesters, and security researchers, providing quick access to **core concepts, tools, and techniques**.
+## Why RedTeamer.wiki
+This site is dedicated to the **art of Red Teaming** applied to real-world operational contexts.  
+No generic lists or copy-paste playbooks — every topic is addressed from a **practical**, **realistic**, and **threat-oriented** perspective.
 
----
-
-## 1️⃣ Foundations
-
-### Core IT & Networking
-- **OSI Model**: Physical → Data Link → Network → Transport → Session → Presentation → Application
-- **Common Ports**: `22 SSH`, `80 HTTP`, `443 HTTPS`, `3389 RDP`, `445 SMB`
-- **Protocols**: HTTP/S, SMB, DNS, ICMP, RDP
-- **VPN & Tunneling**: OpenVPN, WireGuard, SSH tunnels
-
-### Operating Systems
-- **Windows Internals**: Registry hives, WinAPI basics, Active Directory structure
-- **Linux Basics**: `systemd`, file permissions, cron jobs
-- **MacOS Security**: Gatekeeper, SIP
+**Goals:**
+- Train practitioners to emulate real-world adversaries.
+- Assess and improve human, procedural, and technical defenses.
+- Close the gap between **perceived security** and **actual security**.
 
 ---
 
-## 2️⃣ Red Team Planning & Methodology
-- **Red vs Purple vs Blue**: Understand engagement goals
-- **Rules of Engagement (ROE)**: Define scope, constraints, and comms
-- **Adversary Emulation**: Map techniques to [MITRE ATT&CK](https://attack.mitre.org/)
-- **Frameworks**: Cyber Kill Chain, Diamond Model
+## My Perspective on Red Teaming
+Red Teaming goes far beyond a penetration test or vulnerability scan:
+
+- Accurate emulation of real-world threat actor TTPs.
+- Pre-defined, strategic final objectives (data exfiltration, disruption, targeted compromise).
+- Strong focus on stealth and evasion.
+- Evaluation of detection and response capabilities, not just vulnerability existence.
 
 ---
 
-## 3️⃣ Reconnaissance & OSINT
+## Key Distinctions
 
-### Passive Recon
-- **Tools**: `whois`, `dnsdumpster`, [Shodan](https://shodan.io), [Censys](https://censys.io)
-- **Targets**: Subdomains, employee emails, tech stack
-
-### Active Recon
-- **Network**: `nmap -sV -p- <target>`
-- **Web**: `whatweb`, `dirsearch`
+| Activity                | Primary Goal                                                   | Depth           | Stealth         |
+|-------------------------|----------------------------------------------------------------|-----------------|-----------------|
+| Vulnerability Scanning  | Identify as many known flaws as possible over a broad scope     | Low             | Not applicable  |
+| Penetration Testing     | Exploit flaws to prove access is possible                       | Medium          | Low             |
+| **Red Teaming**         | Achieve a strategic goal while simulating a real-world threat   | Very High       | Essential       |
 
 ---
 
-## 4️⃣ Initial Access
-- **Phishing**: Spear phishing with malicious attachments or links
-- **Exploitation**: OWASP Top 10 → SQLi, XSS, RCE
-- **Tools**: Metasploit, Cobalt Strike, Sliver
-- **Physical Access**: Tailgating, rogue devices
+## Core Methodology
+
+**Get In → Stay In → Act**
+
+1. **Get In** — Gain initial access (phishing, exploitation, etc.).
+2. **Stay In** — Maintain persistence, escalate privileges, move laterally.
+3. **Act** — Execute the final objective (exfiltration, disruption, operational impact).
+
+> Each stage evaluates the organization’s ability to detect and respond effectively.
 
 ---
 
-## 5️⃣ Privilege Escalation
-
-### Windows
-- **Token Impersonation**: `incognito` in Meterpreter
-- **Kerberos Attacks**: Pass-the-Ticket, Golden Ticket
-
-### Linux
-- **SUID Binaries**: `find / -perm -4000 -type f 2>/dev/null`
-- **Cron Jobs**: Weak file permissions
+## Engagement Models
+- **Full Engagement** — No initial position; the attack starts from the outside.
+- **Assumed Breach** *(often preferred)* — The Red Team starts with a pre-compromised access point, focusing efforts on testing internal defenses.
 
 ---
 
-## 6️⃣ Lateral Movement
-- **Techniques**: Pass-the-Hash, RDP pivoting, WinRM
-- **Tools**: `crackmapexec`, `smbclient`, `evil-winrm`
+## Roles & Responsibilities
+- **Red Cell** — Offensive team.
+- **Blue Cell** — Defensive team.
+- **White Cell** — Oversight and arbitration.
+- **ECG (Engagement Control Group)** — Executive decision-makers authorizing the engagement.
 
 ---
 
-## 7️⃣ Persistence
-- **Windows**: Registry Run keys, Scheduled Tasks, WMI event subscriptions
-- **Linux**: systemd services, crontab entries
+## Rules of Engagement (ROE)
+A formal contractual document defining:
+- Authorized scope and assets.
+- Mission objectives.
+- Permitted and prohibited actions.
+- Deconfliction process to differentiate Red Team activity from a real incident.
 
 ---
 
-## 8️⃣ Evasion & OPSEC
-- **AV/EDR Evasion**: LOLBAS (`rundll32`, `mshta`)
-- **Binary Obfuscation**: `obfuscator-llvm`, custom packers
-- **Network Evasion**: Domain fronting, traffic shaping
+## Command and Control (C2) Infrastructure
+- **Redirectors** — Protect the main C2 server from exposure.
+- **Tiered Architecture**:
+  - **Tier 3** — Highly interactive C2, noisy, short-term use.
+  - **Tier 2** — Slower callbacks, medium-term persistence.
+  - **Tier 1** — Long callback intervals (days), long-term persistence and fallback beacon.
 
 ---
 
-## 9️⃣ Exfiltration
-- **Compression & Encryption**: `tar -czf data.tar.gz /data && gpg -c data.tar.gz`
-- **Covert Channels**: DNS tunneling, HTTPS POST
+## Tradecraft
+- Full understanding of tools and the artifacts they produce.
+- Blending into normal network traffic (e.g., HTTPS on port 443).
+- Minimizing operational noise to avoid detection.
 
 ---
 
-## 🔟 Reporting & Debrief
-- **Executive Summary**: High-level overview for management
-- **Technical Report**: Full detail with commands & evidence
-- **Remediation Guidance**: Actionable fixes
+## Reporting & Analysis
+- **Findings** — Isolated technical vulnerabilities.
+- **Observations** — Systemic or human weaknesses.
+- **Pyramid of Pain** — Prioritize defensive measures that significantly disrupt adversary operations (focus on TTPs rather than low-value indicators).
 
 ---
 
-## 📌 Quick Reference Commands
+## References & Resources
+- **MITRE ATT&CK** — TTP mapping.
+- **C2 Frameworks** — Cobalt Strike, Mythic, Sliver.
+- **Recommended Reading** — *Red Team Development and Operations* — Vest & Tubberville.
 
-```bash
-# Full TCP scan with service detection
-nmap -sV -p- 10.0.0.0/24
+---
 
-# Find SUID binaries
-find / -perm -4000 -type f 2>/dev/null
+## Content Organization on RedTeamer.wiki
+This site will go beyond theoretical explanations.  
+It will feature **dedicated sections for all TTPs**, categorized according to the three core phases:
 
-# Enumerate subdomains
-subfinder -d target.com
+1. **Get In** — Initial access techniques.
+2. **Stay In** — Persistence, lateral movement, and privilege escalation techniques.
+3. **Act** — Techniques related to achieving operational objectives.
 
-# SMB share listing
-smbclient -L \\\\10.0.0.5\\ -U user
-
-# Simple Python HTTP server
-python3 -m http.server 8080
+Each TTP entry will include:
+- A clear and contextualized description.
+- Example tools and usage scenarios.
+- Associated indicators of compromise (IOCs).
+- Detection and mitigation strategies.
