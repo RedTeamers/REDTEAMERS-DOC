@@ -1,8 +1,121 @@
 ---
-title: "Accueil"
-description: "Bienvenue sur Keystone News"
+title: "Red Teaming Knowledge Base"
+description: "Operational playbooks, techniques, and references for realistic Red Team operations."
 ---
 
-# Keystone News
+# RedTeamer.wiki
 
-Retrouvez les dernières actualités, analyses et dossiers.
+A practical knowledge base focused on **realistic Red Team operations**: planning, adversary emulation, OPSEC, intrusion tradecraft, and reporting.  
+This home page centralizes the main sections and how to use them.
+
+<Callout type="warning">
+<strong>Legal & Ethics</strong>: Content is for authorized security testing and research. Always obtain written permission and follow your Rules of Engagement.
+</Callout>
+
+## Start here
+
+- **How to use this knowledge base**  
+  Scope, structure, conventions, and how pages are organized.  
+  _Coming soon: `/red-teaming/getting-started`_
+
+- **Methodology overview**  
+  Red Team vs Pentest, ROE, Threat Modeling, Adversary Emulation (MITRE ATT&CK), Kill Chain & Diamond Model.  
+  _Coming soon: `/red-teaming/methodology`_
+
+---
+
+## Core sections
+
+### 1. Reconnaissance & OSINT
+Objectives, collection plans, passive vs active recon, data sources, and operational safety.  
+**Coverage**: domains, infrastructure, employee footprint, technology stack, breach data.  
+_Temporary links to create:_  
+`/recon-osint/overview` · `/recon-osint/tools` · `/recon-osint/playbooks`
+
+### 2. Initial Access
+Realistic initial footholds: exposed services, client‑side vectors, and social techniques aligned with ROE.  
+**Coverage**: phishing planning, web exposures, VPN/RDP, misconfigurations, client payload delivery.  
+_Temporary links:_  
+`/initial-access/overview` · `/initial-access/phishing` · `/initial-access/web` · `/initial-access/infrastructure`
+
+### 3. Privilege Escalation
+Windows, Linux, and Cloud privilege escalation mapped to real SOC controls.  
+**Coverage**: token abuse, Kerberos tradecraft, SUID/Sudo, cron/systemd, cloud IAM paths.  
+_Temporary links:_  
+`/priv-esc/windows` · `/priv-esc/linux` · `/priv-esc/cloud`
+
+### 4. Lateral Movement
+Quiet movement and pivoting while preserving objectives and OPSEC.  
+**Coverage**: WinRM/WMI/SMB/RDP, SSH pivots, socks proxies, domain trusts.  
+_Temporary links:_  
+`/lateral-movement/techniques` · `/lateral-movement/tooling`
+
+### 5. Persistence
+Short‑lived vs durable persistence strategies that match scenario timelines.  
+**Coverage**: Windows (tasks, registry, WMI), Linux (systemd/cron), cloud keys/roles.  
+_Temporary links:_  
+`/persistence/windows` · `/persistence/linux` · `/persistence/cloud`
+
+### 6. OPSEC & Evasion
+Planning and execution to reduce detection by EDR/SIEM/Defenders.  
+**Coverage**: living‑off‑the‑land, execution chains, telemetry shaping, network fronting, cleanup.  
+_Temporary links:_  
+`/opsec-evasion/overview` · `/opsec-evasion/edr` · `/opsec-evasion/network`
+
+### 7. Exfiltration
+Data staging and controlled exfil with least‑noticeable channels.  
+**Coverage**: packaging, encryption, HTTPS/DNS channels, timing and size controls.  
+_Temporary links:_  
+`/exfiltration/techniques` · `/exfiltration/tooling`
+
+### 8. Tradecraft Library
+Operator‑centric procedures, checklists, and reusable snippets.  
+**Coverage**: engagement checklists, operator SOPs, command libraries, artifacts management.  
+_Temporary links:_  
+`/tradecraft/checklists` · `/tradecraft/sops` · `/tradecraft/commands`
+
+---
+
+## Tooling reference
+
+Curated tools mapped to phases, with constraints and OPSEC notes.
+
+- **Recon**: Nmap/Masscan, Subfinder/Amass, HTTP probing, certificate intel  
+- **Exploitation frameworks**: Metasploit, Sliver, custom loaders  
+- **Post‑exploitation**: CrackMapExec, BloodHound, Mimikatz (or alternatives), lateral movement kits  
+- **Evasion & pivoting**: proxies, tunnels, traffic shaping  
+- **Reporting**: structured notes, evidence capture, traceability
+
+_Temporary links:_ `/tooling/recon` · `/tooling/exploitation` · `/tooling/postex` · `/tooling/evasion` · `/tooling/reporting`
+
+---
+
+## Values & editorial line
+
+- **Realism first**: techniques that mirror credible adversaries and enterprise defenses.  
+- **Operator‑oriented**: concise, reproducible, with decision points and fallback paths.  
+- **OPSEC‑driven**: every page states detection risks and mitigations.  
+- **Community & integrity**: responsible use, lawful testing, and clear attribution.
+
+---
+
+## Latest updates
+
+- Initial site scaffolding and navigation.  
+- Draft structure for all core sections.  
+- Cheat sheet prototype for fast reference.
+
+> When you add or edit pages, list the highlights here with a short note and date.
+
+---
+
+## Contributing
+
+1. Follow the style guide: short intros, clear prerequisites, decision trees when relevant.  
+2. For each technique, include: objective, environment assumptions, steps, detection notes, rollback/cleanup.  
+3. Cross‑link related techniques and tools to reduce duplication.  
+4. Submit a PR with a concise changelog entry in **Latest updates**.
+
+<Callout type="info">
+Questions or proposals? Open a discussion or file an issue. Provide context, environment assumptions, and the intended operational outcome.
+</Callout>
