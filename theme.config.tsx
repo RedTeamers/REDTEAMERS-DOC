@@ -1,17 +1,17 @@
 import { useConfig } from 'nextra-theme-docs'
 import React from 'react'
 
-const SITE = 'https://news.keystone.dz'
+const SITE = 'https://doc.redteamers.io'
 
 const themeConfig = {
   logo: <span>Keystone News</span>,
-  project: { link: 'https://github.com/keystone/news-site' },
-  docsRepositoryBase: 'https://github.com/keystone/news-site/blob/main',
-  footer: { text: '© ' + new Date().getFullYear() + ' Keystone' },
+  project: { link: 'https://github.com/RedTeamers' },
+  docsRepositoryBase: 'https://github.com/RedTeamers',
+  footer: { text: '© ' + new Date().getFullYear() + ' RedTeamers' },
   search: { placeholder: 'Rechercher des articles…' },
   head: () => {
     const { frontMatter } = useConfig()
-    const title = frontMatter.title ?? 'Keystone News'
+    const title = frontMatter.title ?? 'Red Teamers Docs'
     const desc = frontMatter.description ?? 'Actus, analyses et sécurité'
     return (
       <>
