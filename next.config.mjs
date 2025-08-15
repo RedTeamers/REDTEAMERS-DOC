@@ -1,10 +1,12 @@
-import withNextra from 'nextra'
+import nextra from 'nextra'
 
-
-export default withNextra({
+const withNextra = nextra({
   theme: 'nextra-theme-docs',
   themeConfig: './theme.config.tsx'
-})({
+})
+
+export default withNextra({
   images: { unoptimized: true },
-  reactStrictMode: true
+  reactStrictMode: true,
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx']
 })
