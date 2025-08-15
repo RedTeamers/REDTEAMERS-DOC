@@ -1,4 +1,5 @@
 // pages/sitemap.xml.ts
+import { SpeedInsights } from "@vercel/speed-insights/next"
 export const config = { runtime: 'experimental-edge' }
 
 const urls = [
