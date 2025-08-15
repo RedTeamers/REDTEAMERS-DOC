@@ -1,5 +1,8 @@
 // pages/rss.xml.ts
 export const config = { runtime: 'experimental-edge' }
+import { injectSpeedInsights } from '@vercel/speed-insights';
+
+injectSpeedInsights();
 
 const SITE = 'https://doc.redteamers.io'
 
