@@ -1,1 +1,1 @@
-export const SITE = 'https://doc.redteamers.io'
+export const SITE = 'https://www.redteamer.wiki'

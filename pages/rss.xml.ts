@@ -3,7 +3,7 @@ export const config = { runtime: 'experimental-edge' }
 
 
 
-const SITE = 'https://doc.redteamers.io'
+const SITE = 'https://www.redteamer.wiki'
 
 export default async function handler() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
