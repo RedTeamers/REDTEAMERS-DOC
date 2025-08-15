@@ -1,0 +1,1 @@
+export default {"riles": "Riles M", "equipe-redac": "Équipe Rédac"}

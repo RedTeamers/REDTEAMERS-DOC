@@ -1,3 +1,3 @@
 export function ogTitle(title?: string) {
-  return title ?? 'Red Teamers Docs'
+  return title ?? 'Red Teamer Wiki'
 }

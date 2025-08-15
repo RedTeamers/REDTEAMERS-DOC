@@ -1,1 +1,7 @@
-export default {"index": "Accueil", "news": "News", "about": "À propos", "authors": "Auteurs"}
+export default {
+
+    "RTW": "RTW", 
+    "news": "News", 
+    "about": "À propos", 
+    "authors": "Auteurs"
+}

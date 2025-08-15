@@ -1,6 +1,7 @@
 {
-  "index": "Accueil",
-  "news": "News",
-  "about": "À propos",
-  "authors": "Auteurs"
+    "index": "Welcome",
+    "RTW": "RTW", 
+    "news": "News", 
+    "about": "À propos", 
+    "authors": "Auteurs"
 }

@@ -1,0 +1,116 @@
+---
+title: "Vision & Objectives"
+description: "A comprehensive reference for Red Team operators"
+---
+
+# RedTeamer.wiki — Introduction & Values
+
+## Why RedTeamer.wiki
+This site is dedicated to the **art of Red Teaming** applied to real-world operational contexts.  
+No generic lists or copy-paste playbooks — every topic is addressed from a **practical**, **realistic**, and **threat-oriented** perspective.
+
+**Goals:**
+- Train practitioners to emulate real-world adversaries.
+- Assess and improve human, procedural, and technical defenses.
+- Close the gap between **perceived security** and **actual security**.
+
+---
+
+## My Perspective on Red Teaming
+Red Teaming goes far beyond a penetration test or vulnerability scan:
+
+- Accurate emulation of real-world threat actor TTPs.
+- Pre-defined, strategic final objectives (data exfiltration, disruption, targeted compromise).
+- Strong focus on stealth and evasion.
+- Evaluation of detection and response capabilities, not just vulnerability existence.
+
+---
+
+## Key Distinctions
+
+| Activity                | Primary Goal                                                   | Depth           | Stealth         |
+|-------------------------|----------------------------------------------------------------|-----------------|-----------------|
+| Vulnerability Scanning  | Identify as many known flaws as possible over a broad scope     | Low             | Not applicable  |
+| Penetration Testing     | Exploit flaws to prove access is possible                       | Medium          | Low             |
+| **Red Teaming**         | Achieve a strategic goal while simulating a real-world threat   | Very High       | Essential       |
+
+---
+
+## Core Methodology
+
+**Get In → Stay In → Act**
+
+1. **Get In** — Gain initial access (phishing, exploitation, etc.).
+2. **Stay In** — Maintain persistence, escalate privileges, move laterally.
+3. **Act** — Execute the final objective (exfiltration, disruption, operational impact).
+
+> Each stage evaluates the organization’s ability to detect and respond effectively.
+
+---
+
+## Engagement Models
+- **Full Engagement** — No initial position; the attack starts from the outside.
+- **Assumed Breach** *(often preferred)* — The Red Team starts with a pre-compromised access point, focusing efforts on testing internal defenses.
+
+---
+
+## Roles & Responsibilities
+- **Red Cell** — Offensive team.
+- **Blue Cell** — Defensive team.
+- **White Cell** — Oversight and arbitration.
+- **ECG (Engagement Control Group)** — Executive decision-makers authorizing the engagement.
+
+---
+
+## Rules of Engagement (ROE)
+A formal contractual document defining:
+- Authorized scope and assets.
+- Mission objectives.
+- Permitted and prohibited actions.
+- Deconfliction process to differentiate Red Team activity from a real incident.
+
+---
+
+## Command and Control (C2) Infrastructure
+- **Redirectors** — Protect the main C2 server from exposure.
+- **Tiered Architecture**:
+  - **Tier 3** — Highly interactive C2, noisy, short-term use.
+  - **Tier 2** — Slower callbacks, medium-term persistence.
+  - **Tier 1** — Long callback intervals (days), long-term persistence and fallback beacon.
+
+---
+
+## Tradecraft
+- Full understanding of tools and the artifacts they produce.
+- Blending into normal network traffic (e.g., HTTPS on port 443).
+- Minimizing operational noise to avoid detection.
+
+---
+
+## Reporting & Analysis
+- **Findings** — Isolated technical vulnerabilities.
+- **Observations** — Systemic or human weaknesses.
+- **Pyramid of Pain** — Prioritize defensive measures that significantly disrupt adversary operations (focus on TTPs rather than low-value indicators).
+
+---
+
+## References & Resources
+- **MITRE ATT&CK** — TTP mapping.
+- **C2 Frameworks** — Cobalt Strike, Mythic, Sliver.
+- **Recommended Reading** — *Red Team Development and Operations* — Vest & Tubberville.
+
+---
+
+## Content Organization on RedTeamer.wiki
+This site will go beyond theoretical explanations.  
+It will feature **dedicated sections for all TTPs**, categorized according to the three core phases:
+
+1. **Get In** — Initial access techniques.
+2. **Stay In** — Persistence, lateral movement, and privilege escalation techniques.
+3. **Act** — Techniques related to achieving operational objectives.
+
+Each TTP entry will include:
+- A clear and contextualized description.
+- Example tools and usage scenarios.
+- Associated indicators of compromise (IOCs).
+- Detection and mitigation strategies.
