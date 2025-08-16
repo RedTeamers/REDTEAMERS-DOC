@@ -2,3 +2,94 @@
 title: "Get In Phase"
 description: "Red Teaming Methodology - Get In Phase"
 ---
+
+import { Callout } from 'nextra/components'
+import ThemedImage from '@/components/ThemedImage'
+import Image from 'next/image'
+
+# Red Teaming – The "Get In" Phase
+  
+This article explores the theoretical foundations of the **Get In** phase, which represents the critical step of **initial access**.
+
+---
+
+## Objective of the "Get In" Phase
+
+The goal of the **Get In** phase is to **gain initial access to the target network**.  
+This step is crucial as it establishes the foundation for the rest of the engagement.  
+
+The key question it seeks to answer is:  
+👉 **Can the organization detect and prevent an initial intrusion attempt?**
+
+This evaluation goes beyond technical vulnerabilities. It measures the effectiveness of:  
+- Security staff and monitoring,  
+- Policies and procedures,  
+- Detection tools and controls.  
+
+---
+
+## Methods of Initial Access
+
+There are two main pathways for establishing initial access:
+
+1. **Legitimate Compromise** – Exploiting a real vulnerability or weakness to gain entry.  
+2. **Direct Grant (Assumed Breach)** – Starting from an insider or pre-compromised position.  
+
+The **assumed breach** model is often the most valuable. Instead of spending time proving entry, it allows Red Teams to simulate a more advanced stage of attack, testing the organization’s detection and response capabilities more efficiently.
+
+---
+
+## Core Activities of the "Get In" Phase
+
+The **Get In** phase is guided by an **adversarial mindset** and focuses on realistic attacker behavior:
+
+### 1. Reconnaissance & OSINT
+Passive collection of information from public sources (websites, social media, code repositories).  
+This mirrors how real adversaries map an attack surface without triggering alerts.  
+
+### 2. External Enumeration
+Identification of external assets (hosts, domains, URLs) and potential exposures.  
+The emphasis remains on stealth—avoiding aggressive scans or noisy actions early on.  
+
+### 3. Exploitation as a Means, Not the Goal
+Unlike penetration testing, exploitation here is only a **stepping stone**.  
+If one vulnerability provides access, the Red Team uses it and moves on, focusing on persistence and stealth rather than listing every flaw.  
+
+### 4. Threat Perspective
+Defining the attacker’s starting point:  
+- **Outsider** – No legitimate access.  
+- **Nearsider** – Physical presence, no digital access (e.g., contractors).  
+- **Insider** – Legitimate access with malicious intent.  
+
+<ThemedImage
+  alt="RedTeamers banner"
+  darkSrc="/images/getinb.png"
+  lightSrc="/images/getinw.png"
+  width={1200}
+  height={360}
+/>
+
+This choice directly shapes the scenario and ensures realism.  
+
+### 5. Exploitation Without Exploits
+Many intrusions rely on misconfigurations, weak controls, or design flaws rather than complex exploits.  
+This reduces Indicators of Compromise (IOCs) and makes the intrusion resemble legitimate administrative activity.  
+
+### 6. Social Engineering
+Exploiting human factors through phishing, vishing, or pretexting.  
+If users fall victim, the failure lies in inadequate organizational controls—not the user alone.  
+Red Teams use SE to highlight the need for layered defenses that go beyond user awareness training.  
+
+---
+
+## Key Takeaways
+
+The **Get In** phase is not about compiling a vulnerability list.  
+It is about telling a **credible story** of how an adversary could breach defenses and whether the organization can:  
+- Detect the intrusion,  
+- Respond effectively,  
+- Prevent escalation.  
+
+By focusing on Tactics, Techniques, and Procedures (TTPs), Red Teaming ensures that this first phase provides actionable insights into **real-world defensive readiness**.
+
+---
