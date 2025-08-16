@@ -1,1 +1,6 @@
-export default {"riles": "Riles M", "equipe-redac": "Équipe Rédac"}
+export default {
+  "get_in": "Get In",
+  "stay_in": "Stay In",
+  "act": "Act"
+
+}

@@ -1,5 +1,5 @@
 export default {
 
     "index": "Welcome",
-    "RTW": "RTW",
+    "RTW": "RTW Methodology",
 }

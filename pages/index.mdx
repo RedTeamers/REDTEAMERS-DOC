@@ -1,14 +1,33 @@
 import { Callout } from 'nextra/components'
+import ThemedImage from '@/components/ThemedImage'
+import Image from 'next/image'
 
 # About RTW
 
 ## Introduction
 **RedTeamer.wiki** is a knowledge and reference project dedicated to making the concepts, methodologies, and practices of Red Teaming accessible to a wide audience of security professionals.
 
+
 The main objective is to **share, document, and propagate** the notion of Red Teaming, while clearly explaining its differences from penetration testing and vulnerability scanning.  
+
+
+### A quick reminder
+<Callout type="info">
+In the professional field of cybersecurity, a wide range of jargon and terminology is constantly used. These short illustrations are designed to help you cut through the noise and keep the essentials in mind.
+</Callout>
+
 - **Vulnerability Assessment** → Focus on identifying flaws.  
 - **Penetration Testing** → Focus on exploiting those flaws.  
 - **Red Teaming** → Emulates real-world threat actors to test people, processes, and technology under realistic conditions.
+
+<ThemedImage
+  alt="RedTeamers banner"
+  darkSrc="/images/rtmvs_black.png"
+  lightSrc="/images/rtmvs_white.png"
+  width={1200}
+  height={360}
+/>
+
 
 This project aims to:
 - Provide **technical and theoretical support** for cybersecurity experts.
@@ -28,10 +47,44 @@ All information, techniques, and methodologies described in **RedTeamer.wiki** a
 ---
 
 ## What You Will Find Here
-- A **brief history** of the project and its role in today’s cybersecurity landscape.
-- The **scope of coverage** — from planning to execution, reporting, and TTP cataloging.
-- An introduction to the **core methodology**: *Get In*, *Stay In*, *Act*.
-- How to **contribute** or suggest improvements to the knowledge base.
+
+This knowledge base is more than just documentation — it is a **comprehensive reference hub for Red Team operations**, structured to cover the entire lifecycle of offensive security engagements.  
+Whether you are a professional operator, a security researcher, or an organization building resilience, here is what you will discover:
+
+### 1. A Brief History and Purpose
+**RedTeamer.wiki** was created to **consolidate Red Team knowledge** in a single place.  
+In today’s cybersecurity landscape — where **Advanced Persistent Threats (APTs)**, ransomware groups, and nation-state actors push the limits — Red Teaming has become essential to test defenses under **realistic attack conditions**.
+
+### 2. Full Scope of Coverage
+From initial planning to final reporting, the knowledge base provides guidance across all phases of an engagement:
+
+- **Reconnaissance & OSINT**: footprinting, intelligence collection, and adversary mapping.  
+- **Initial Access**: phishing, web exploitation, supply chain, and exposed service abuse.  
+- **Privilege Escalation**: Windows, Linux, and Cloud privilege escalation techniques.  
+- **Lateral Movement**: moving across domains and infrastructures while maintaining stealth.  
+- **Persistence**: strategies to remain undetected and keep long-term access.  
+- **OPSEC & Evasion**: living-off-the-land, AV/EDR bypass, and network cloaking.  
+- **Exfiltration**: covert data exfil techniques (DNS tunneling, HTTPS, staged leaks).  
+- **Reporting & Debrief**: methodologies to communicate findings and strengthen defenses.  
+
+Each section is mapped to **real-world TTPs (Tactics, Techniques & Procedures)** and aligned with frameworks like **MITRE ATT&CK** to ensure operational relevance.
+
+### 3. Core Methodology: *Get In, Stay In, Act*
+The philosophy behind this project is distilled into three principles:
+- **Get In** → Gain initial access, replicate real attacker entry points.  
+- **Stay In** → Maintain persistence and evade detection while exploring the environment.  
+- **Act** → Achieve mission objectives: privilege escalation, lateral movement, and data exfiltration.
+
+---
+
+### By exploring this RTW knowledge base, you will find resources on
+- *Red Teaming methodology*  
+- *Adversary emulation*  
+- *Offensive security techniques*  
+- *Threat intelligence integration*  
+- *Advanced hacking TTPs for Red Team operations*  
+- *Reconnaissance, privilege escalation, lateral movement, persistence, evasion, exfiltration, and reporting*  
+
 
 ---
 
