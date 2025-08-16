@@ -2,8 +2,7 @@
 export const config = { runtime: 'experimental-edge' }
 
 const urls = [
-  '/', '/RTW', '/about',
-  '/news/2025/08/lancement-plateforme', '/authors/riles'
+  '/', '/RTW', '/about'
 ]
 
 export default async function handler() {
