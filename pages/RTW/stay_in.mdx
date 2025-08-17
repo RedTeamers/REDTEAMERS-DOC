@@ -2,3 +2,111 @@
 title: "Stay In Phase"
 description: "Red Teaming Methodology - Stay In Phase"
 ---
+
+# The "Stay In" Phase
+
+Red Team engagements progress through distinct stages, each designed to replicate the mindset and tradecraft of real-world adversaries. Among these, the **"Stay In" phase** is one of the most delicate and defining. It focuses on maintaining a **persistent and stealthy presence** inside the target environment after the initial breach.  
+
+> 💡 Where the **Get In** phase is about breaking through the door, **Stay In** is about living quietly inside the house—unnoticed, yet fully aware of your surroundings.
+
+---
+
+## Purpose and Strategic Importance
+
+The primary objective of the "Stay In" phase is to **establish and sustain persistence**. Unlike a penetration test that often ends after the first foothold, Red Team engagements last weeks or months. Maintaining uninterrupted access is critical to set the stage for the **"Act" phase**, where meaningful operational goals (like data exfiltration or business impact) are pursued.  
+
+From the defenders’ perspective, this stage is a **stress test of resilience**. It highlights their ability to:  
+- Detect hidden persistence mechanisms  
+- Recognize subtle lateral movements  
+- Respond effectively before damage escalates  
+
+📊 Metrics such as **Mean Time to Detect (MTTD)** and **Mean Time to Recover (MTTR)** often come into focus here. Beyond numbers, the phase offers an invaluable training ground for the Blue Team, exposing them to scenarios that mirror **Advanced Persistent Threats (APTs).**
+
+---
+
+## Core Activities of the "Stay In" Phase
+
+### 1. Internal & Domain Enumeration
+Operators expand their situational awareness by answering questions like:  
+- *Who has admin rights?*  
+- *Where are the crown jewels stored?*  
+- *Which systems communicate with each other?*  
+
+This builds an **operational map** of trust relationships and hidden pathways.
+
+### 2. Establishing Persistence
+Persistence ensures that if one door closes, others remain open. Examples:  
+- Registry run keys & scheduled tasks  
+- Malicious services or startup scripts  
+- Exploiting cloud authentication tokens or SSO misconfigurations  
+
+> ✅ Good persistence is **quiet, redundant, and resilient** against routine IT changes (restarts, patching, credential resets).
+
+### 3. Lateral Movement
+Red Teams rarely stay confined to one host. Using stolen credentials or built-in trust, they move sideways, blending into legitimate user activity.
+
+### 4. Command & Control (C2)
+C2 is the **lifeline** of the Red Team:  
+
+- **Asynchronous C2** → controlled check-ins, stealthier  
+- **On-demand C2** → dormant channels triggered manually  
+- **Tiered C2 Infrastructure**:  
+  - **Tier 1 (Long Haul)** → rare callbacks (24+ hrs), hidden fallback  
+  - **Tier 2 (Short Haul)** → medium-frequency backup  
+  - **Tier 3 (Interactive)** → active operations, higher risk  
+
+Traffic must **blend with normal traffic** (HTTP/S, DNS, SMB, cloud services).  
+C2 redirectors add a layer of protection, acting as **burnable buffers**.
+
+---
+
+## Why the "Stay In" Phase Is So Delicate
+
+This stage is about balance: achieving goals **without raising alarms**.
+
+### IOC Management
+Every action leaves a trace. Skilled operators know:  
+- Which artifacts their tools create  
+- How to minimize footprints  
+- When *not* to act to avoid exposure  
+
+### Stealthy Tradecraft
+- Live off the land (built-in tools > binaries)  
+- Keep traffic mostly **internal**  
+- Maintain **minimal outbound C2 paths**  
+- Encrypt traffic (unless mimicking legacy cleartext)  
+- Execute from **normal paths**, not `c:\temp`  
+- Use exploits sparingly—pivot to stealthier methods once in  
+
+### Exploitation Without Exploits
+Persistence often comes from **misconfigurations** or **weak controls**, not just zero-days:  
+- Reused passwords  
+- Forgotten admin accounts  
+- Excessive permissions  
+
+### Data Handling & Ethics
+Red Teams have a duty to protect client data:  
+- Avoid mining sensitive PII/medical/financial data  
+- Pause and notify the **Engagement Control Group (ECG)** if sensitive info is encountered  
+- Apply strict controls:  
+  - 🔒 Encrypted storage & comms  
+  - 🔑 Strong authentication  
+  - 👥 Two-Person Integrity (TPI) for critical ops  
+- Keep **comprehensive logs** (timestamps, commands, outputs, screenshots)
+
+---
+
+## Key Takeaways
+
+The **"Stay In" phase** is where Red Team engagements truly mature. It is not only about persistence—it is about **discipline, stealth, and realism**.  
+
+✅ Done well, it reveals:  
+- Whether defenders can catch subtle compromise traces  
+- How long adversaries could remain undetected  
+- How resilient the organization is against determined, persistent threats  
+
+By surviving undetected, the Red Team provides the most valuable gift:  
+a **mirror of real-world adversaries**, and the opportunity to strengthen defenses before a true attack arrives.  
+
+---
+
