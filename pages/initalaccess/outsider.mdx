@@ -1,0 +1,113 @@
+# Outsider Initial Access
+
+The **outsider perspective** represents the most common entry point for real-world attackers.  
+An outsider has **no legitimate access** to the organization but leverages open-source intelligence, exposed data, and underground economies to gain an initial foothold.  
+In the modern threat landscape, **data leaks and access markets** have become one of the most powerful enablers for this phase.
+
+---
+
+## The Economy of Leaks and Initial Access
+
+Over the last decade, **stolen credentials and corporate access** have evolved into a full-fledged underground economy.  
+Instead of relying solely on custom exploits, many attackers now **purchase ready-to-use access** on dedicated platforms known as **Initial Access Brokers (IABs)**.
+
+These marketplaces sell **credentials, VPN sessions, RDP access, and even entire domain admin accounts** obtained through:
+
+- **Infostealer malware** (Raccoon Stealer, RedLine, Vidar, Lumma, etc.)  
+  → harvesting browser-stored credentials, cookies, and session tokens.  
+- **Phishing campaigns**  
+  → collecting valid logins directly from users.  
+- **Database breaches**  
+  → password reuse becomes an easy path to corporate compromise.  
+- **Compromised infrastructure**  
+  → misconfigured Citrix, exposed VPNs, weak RDP.  
+
+For a Red Team, monitoring and simulating this ecosystem provides a **realistic attack surface**.
+
+---
+
+## Key Marketplaces and Access Brokers
+
+Although many platforms are volatile (shut down or rebranded), some **persistent names** have shaped the underground access economy:
+
+- **Russian Market**:  
+  Specializes in **logs from infostealers**. Operators can search by domain (e.g., `company.com`) and instantly purchase credential sets including cookies, browser fingerprints, and saved passwords. This is one of the fastest ways to simulate realistic credential theft.
+
+- **Genesis Market** *(taken down, but clones exist)*:  
+  Famous for selling **bot profiles** — full browser fingerprints and cookies allowing attackers to bypass MFA by impersonating a victim’s session. Even though the original was dismantled, several copycats (e.g., *Genesis 2.0*) continue to circulate.
+
+- **2easy Shop**:  
+  Known for its **cheap, massive supply** of logs. While less curated, it demonstrates the scale of access available to attackers with minimal investment.
+
+- **Private IAB forums**:  
+  Beyond public shops, some brokers operate in invite-only channels (Telegram, XMPP, closed forums). They sell higher-value accesses such as **domain controllers, corporate VPNs, or even cloud admin panels**.
+
+⚠️ For a Red Team operator, **simulation is the priority**.  
+Actual purchase of illegal access is not necessary; instead, teams may:  
+- **Use OSINT** to replicate what is available.  
+- **Leverage pre-collected leaks** (public breaches, corporate credential dumps).  
+- **Emulate the workflow** of searching and using stolen data, without crossing into criminal acquisition.
+
+---
+
+## Practical Red Team Techniques with Leaks
+
+1. **Credential Validation**  
+   Once credentials are obtained (from leaks or simulated markets), the first step is to validate them safely:  
+   - Test against **corporate VPN / webmail portals**.  
+   - Check **password reuse** across exposed accounts.  
+   - Use **password spraying** with leaked patterns (e.g., `Winter2024!`, `Company@123`).  
+
+2. **Cookie and Session Replay**  
+   Infostealers often expose cookies (Google Workspace, O365, Salesforce).  
+   - Red Teamers can replay sessions to simulate **MFA bypass**.  
+   - Browser profile emulation tools can mimic a stolen fingerprint.  
+
+3. **Targeted Enumeration in Leaks**  
+   - Searching leaks by **email domain** (`@company.com`).  
+   - Looking for **executive accounts** (CEO, CFO) to simulate whaling.  
+   - Identifying **technical staff accounts** (admins, developers) which often have privileged access.  
+
+4. **Combination with OSINT**  
+   Leaks become exponentially more valuable when correlated with OSINT:  
+   - Cross-matching **LinkedIn employee lists** with breach data.  
+   - Identifying developers on **GitHub** and checking their credentials in leaks.  
+   - Using Shodan/Censys to link leaked accounts with exposed services.  
+
+---
+
+## Red Team Scenarios
+
+A realistic outsider-to-insider path often looks like this:
+
+- An attacker finds **employee credentials** on a leak marketplace.  
+- The password is reused on the company’s **VPN gateway**.  
+- With VPN access, the attacker reaches internal systems.  
+- From there, **enumeration and lateral movement** begin.  
+
+Or alternatively:
+
+- Cookies from Russian Market allow bypassing MFA on an O365 account.  
+- The attacker gains access to **corporate emails and OneDrive**.  
+- Sensitive documents are exfiltrated without triggering credential alerts.  
+
+These are not abstract possibilities — they are **daily realities** in the access broker ecosystem.  
+By simulating them, a Red Team provides defenders with **true-to-life training** and highlights how a single leaked credential can unravel an entire security posture.
+
+---
+
+## Defensive Insights
+
+From a Blue Team perspective, defending against this ecosystem requires:
+
+- **Continuous leak monitoring** (dark web, Telegram, marketplaces).  
+- **Credential hygiene enforcement**: mandatory password rotation, MFA everywhere, prevention of password reuse.  
+- **Anomaly detection**: session replay, impossible travel, unusual browser fingerprints.  
+- **User awareness**: employees understanding the **value of their credentials** in underground economies.  
+
+---
+
+## Conclusion
+
+The **outsider phase** is no longer about brute-forcing doors; it’s about walking through ones already left open by leaks and data brokers.  
+For a Red Team, focusing on leaks and markets provides a **highly realistic initial access vector** — one that is **cheap, scalable, and devastatingly effective** in modern adversary simulations.
