@@ -12,6 +12,11 @@ const themeConfig = {
   docsRepositoryBase: 'https://github.com/RedTeamers',
   footer: { text: '© ' + new Date().getFullYear() + ' redteamer.wiki' },
   search: { placeholder: 'Rechercher des articles…' },
+  sidebar: {
+    defaultMenuCollapseLevel: 1, // tout est fermé par défaut (niveau 1)
+    autoCollapse: true,          // n’ouvre que la branche contenant la page active
+    // toggleButton: true        // (optionnel) affiche le bouton de repli/extension
+  },
 
   // <<--- Ajout clé
   useNextSeoProps() {
