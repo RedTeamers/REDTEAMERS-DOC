@@ -1,0 +1,223 @@
+---
+title: "Nmap Cheat Sheet (Silent Enumeration)"
+description: Learn how to enumerate with Nmap like a Red Teamer — staying silent, avoiding SOC alerts, and still collecting maximum intelligence with low-and-slow scans.
+date: 2025-08-21
+tags:
+  - nmap
+  - redteam
+  - enumeration
+  - opsec
+  - stealth
+  - penetration-testing
+  - ethical-hacking
+toc: true
+---
+
+
+# Nmap Cheat Sheet (Silent Enumeration)
+
+## 1. Host Discovery (Finding Alive Hosts)
+
+* **ARP scan (LAN only)** – very quiet at Layer 2
+
+```bash
+nmap -sn -PR 10.0.0.0/24
+```
+* **SYN ping on common ports** (Windows/Web environments)
+
+```bash
+nmap -sn -PS22,80,443,445,3389 10.0.0.0/24
+```
+
+* **ICMP Echo ping** (only if ICMP allowed)
+
+```bash
+nmap -sn -PE 10.0.0.0/24
+```
+
+* **Reverse DNS sweep**
+
+```bash
+nmap -sL 10.0.0.0/24
+```
+
+---
+
+## 2. TCP Scans
+
+* **Stealth SYN scan (default for Red Team)**
+
+```bash
+nmap -sS -p- 192.168.1.10
+```
+
+* **ACK scan (firewall mapping)**
+
+```bash
+nmap -sA -p 80,443 192.168.1.10
+```
+
+* **NULL / FIN / Xmas scans (legacy evasion tricks)**
+
+```bash
+nmap -sN -p 22,80 192.168.1.10
+nmap -sF -p 22,80 192.168.1.10
+nmap -sX -p 22,80 192.168.1.10
+```
+
+* **Idle scan (super stealthy, needs a zombie host)**
+
+```bash
+nmap -sI zombie.host 192.168.1.10
+```
+
+---
+
+## 3. UDP Scans
+
+* **Top 20 UDP ports** (slower, safe)
+
+```bash
+nmap -sU --top-ports 20 192.168.1.10
+```
+
+* **Specific UDP services** (DNS/NTP/SNMP)
+
+```bash
+nmap -sU -p 53,123,161 192.168.1.10
+```
+
+---
+
+## 4. Version Detection & Banners
+
+* **Light service version detection** (stealthy)
+
+```bash
+nmap -sV --version-light -p 22,80,443 192.168.1.10
+```
+
+* **Aggressive version detection (louder)**
+
+```bash
+nmap -sV --version-all -p 22,80,443 192.168.1.10
+```
+
+---
+
+## 5. NSE Scripts (Safe & Targeted)
+
+* **Banner grabbing**
+
+```bash
+nmap --script=banner -p 21,22,25,80,110,143 192.168.1.10
+```
+
+* **SSL/TLS checks**
+
+```bash
+nmap --script=ssl-cert,ssl-enum-ciphers -p 443 192.168.1.10
+```
+
+* **HTTP reconnaissance**
+
+```bash
+nmap --script=http-title,http-headers,http-server-header -p 80,443 192.168.1.10
+```
+
+* **SMB reconnaissance**
+
+```bash
+nmap --script=smb-os-discovery,smb2-time,smb2-security-mode -p 445 192.168.1.10
+```
+
+* **RDP security mode**
+
+```bash
+nmap --script=rdp-enum-encryption -p 3389 192.168.1.10
+```
+
+⚠️ **Never launch `vuln` scripts unless explicitly allowed by ROE.**
+
+---
+
+## 6. Timing & Stealth Controls
+
+* **Go paranoid / low-and-slow**
+
+```bash
+nmap -T1 --max-rate 10 --scan-delay 200ms 192.168.1.10
+```
+
+* **Randomize host order**
+
+```bash
+nmap --randomize-hosts -sS -p 80 192.168.1.0/24
+```
+
+* **Limit parallelism**
+
+```bash
+nmap --min-parallelism 1 --max-parallelism 2 -sS -p 80 192.168.1.0/24
+```
+
+---
+
+## 7. Evasion Options (Only if Allowed)
+
+* **Use decoys**
+
+```bash
+nmap -D RND:5 -sS -p 80 192.168.1.10
+```
+
+* **Spoof MAC address**
+
+```bash
+nmap --spoof-mac 0 -sS -p 80 192.168.1.10
+```
+
+* **Fragment packets (rarely useful today)**
+
+```bash
+nmap -f -sS -p 80 192.168.1.10
+```
+
+---
+
+## 8. Output Handling
+
+* **Export all formats at once (normal, grepable, XML)**
+
+```bash
+nmap -oA scan_results -sS -p 80,443 192.168.1.10
+```
+
+* **Extract hosts with port 445 open from XML**
+
+```bash
+grep 'portid="445"' -B3 scan_results.xml | grep 'addr addrtype="ipv4"' | awk -F'"' '{print $4}' | sort -u
+```
+
+---
+
+## 9. End-to-End Example (Silent Web/DMZ Recon)
+
+```bash
+# Discovery
+nmap -sn -PS80,443,3389 --dns-servers 10.10.10.53 \
+     --randomize-hosts -T1 --max-rate 20 --scan-delay 100ms \
+     -oA dmz-hosts 203.0.113.0/24
+
+# TCP scan with version light
+nmap -sS -p 80,443,3389 -sV --version-light \
+     --randomize-hosts -T1 --max-rate 10 --scan-delay 200ms \
+     -oA dmz-tcp dmz-hosts.gnmap
+
+# Focused NSE
+nmap -sS -p 80,443,3389 -sV --version-light \
+     --script=http-title,http-headers,ssl-cert,rdp-enum-encryption \
+     -T1 --max-rate 8 --scan-delay 250ms \
+     -oA dmz-nse dmz-tcp.xml
+```
+

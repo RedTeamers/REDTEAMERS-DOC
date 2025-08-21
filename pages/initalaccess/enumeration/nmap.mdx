@@ -1,0 +1,260 @@
+---
+title: "Silent Enumeration with Nmap"
+description: Learn how to enumerate with Nmap like a Red Teamer — staying silent, avoiding SOC alerts, and still collecting maximum intelligence with low-and-slow scans.
+date: 2025-08-21
+tags:
+  - nmap
+  - redteam
+  - enumeration
+  - opsec
+  - stealth
+  - penetration-testing
+  - ethical-hacking
+toc: true
+---
+
+
+# Enumerating with Nmap “Silently” Like a Red Teamer
+
+
+## 1 OPSEC Principles Before the First Packet
+
+* **ROE/ROA**: Confirm the approved window, IP ranges, and depth of enumeration (TCP/UDP, NSE) so you don’t create unexpected noise.
+* **Attribution hygiene**: Never scan from your corporate IP. Use a dedicated exit point (jump box, bastion, VPS) that the client has signed off on. Forget public VPNs or Tor — they’re noisy, unstable, and light up SOC dashboards.
+* **DNS**: Stick to authorized resolvers (often the client’s) to avoid leaking DNS lookups externally.
+* **Phased approach**: Start **passive** (OSINT, passive DNS, Shodan, Certificate Transparency) → **low-noise probing** → **targeted scans** → **surgical NSE**.
+* **Logging**: Always export results with `-oA` (normal/grepable/XML) and keep timestamps. That way, you can “replay” short scans instead of rescanning and making more noise.
+
+---
+
+## 2 Choosing Low-Noise Scan Techniques
+
+### TCP
+
+* **SYN scan (-sS)**: The standard stealthy scan (half-open).
+* **ACK scan (-sA)**: Great for firewall mapping without completing a handshake.
+* **NULL/FIN/Xmas (-sN / -sF / -sX)**: Sometimes useful against old stacks/ACLs to infer open/filtered ports without SYN (less reliable nowadays).
+* **Idle scan (-sI ZOMBIE)**: Almost invisible to the target if you can find a zombie host with predictable IPIDs (rare, but gold for true low-and-slow).
+
+### UDP
+
+* **UDP scan (-sU)**: Very noisy if done carelessly. Stick to `--top-ports`, introduce `--scan-delay`, and focus on likely services (DNS, NTP, SNMP, IKE, etc.). Combine with `-sV --version-light` for meaningful results.
+
+### Version & Banners
+
+* **-sV --version-light**: Grabs service versions without hammering. Save `--version-all` for critical ports only.
+* **NSE “safe”**: Stick to **safe/default/discovery** scripts before running **intrusive/vuln** scripts (which can be loud and risky).
+
+---
+
+## 3 “Low-and-Slow” Tuning
+
+These options reduce scan speed, randomize order, and smooth traffic patterns:
+
+* **Speed & Timing**
+
+  * `-T0` or `-T1` (default is -T3). Start with **-T1** (Paranoid/Slow), then carefully adjust.
+  * `--max-rate 20` (or 10/5): Caps packets/sec. Easier to control than just tweaking timeouts.
+  * `--scan-delay 100ms+`: Inserts gaps between probes (helps against IPS/rate limits).
+  * `--min-parallelism 1 --max-parallelism 2`: Minimal concurrency = flatter profile.
+
+* **Randomization & Distribution**
+
+  * `--randomize-hosts`: Avoids clean sequential scans.
+  * RTT tuning: `--initial-rtt-timeout 300ms --max-rtt-timeout 2s` keeps retransmits calm.
+  * `--defeat-icmp-ratelimit`: Useful if ICMP throttling causes false “host down” results.
+
+* **Minimal evasions (only if explicitly allowed)**
+
+  * `-D RND:10`: Adds decoys (can raise suspicion in SOCs).
+  * `--spoof-mac 0` (or vendor): Normalizes L2 fingerprint.
+  * **Avoid** `-S` (IP spoofing): rarely routable, often useless and suspicious.
+  * **Fragmentation (-f / --mtu)**: Mostly unnecessary today; often more suspicious than helpful.
+
+**Discreet profile examples:**
+
+```bash
+# 1) Low-and-slow host discovery on /24 (SYN ping only + custom DNS + randomized)
+nmap -sn -PS21,22,80,443,3389 --dns-servers 10.10.10.53 \
+     --randomize-hosts -T1 --max-rate 20 --scan-delay 100ms \
+     -oA 00-host-discovery 10.10.20.0/24
+
+# 2) Targeted TCP scan on alive hosts with common ports (SYN + version light)
+nmap -sS -p 21,22,80,443,445,3389,8080 -sV --version-light \
+     --randomize-hosts -T1 --max-rate 15 --scan-delay 150ms \
+     -oA 01-tcp-common alive.txt
+
+# 3) Small “safe” UDP scan on likely services
+nmap -sU --top-ports 20 -sV --version-light \
+     --randomize-hosts -T1 --max-rate 5 --scan-delay 300ms \
+     -oA 02-udp-top20 alive.txt
+```
+
+---
+
+## 4 Layered Enumeration Strategy (Max Info, Min Noise)
+
+### 4.1 Host Discovery
+
+* **ARP ping (-PR)**: In LANs, extremely quiet.
+* **Selective SYN ping (-PS22,80,443,445,3389)**: For Windows/Web networks.
+* **ICMP echo (-PE)**: Only if ICMP is allowed.
+* **Reverse DNS (-sL)**: Useful for naming patterns.
+
+### 4.2 Firewall/ACL Mapping
+
+* **ACK scan (-sA)** on “canary” ports to differentiate filtered/unfiltered.
+* Test unusual ports to understand ACL logic.
+
+### 4.3 Targeted Ports & Services
+
+* Start **small**:
+
+  * `--top-ports 100` or even 50. Expand only when justified.
+  * Use “business-focused” port lists (RDP, SMB, WinRM, SQL, HTTP\[S], VPN, etc.).
+* **Prudent versioning**: `-sV --version-light`. Record banners early to avoid rescans.
+
+### 4.4 Surgical NSE
+
+* Use categories **safe**, **default**, **discovery** first.
+* Low-noise examples:
+
+  * `banner`
+  * `ssl-cert`, `ssl-enum-ciphers`
+  * `http-title`, `http-headers`, `http-server-header`, `http-robots.txt`
+  * `smb-os-discovery`, `smb2-time`, `smb2-security-mode`
+  * `rdp-enum-encryption`
+  * Vulnerability scripts (`vuln`, `vulners`) → **only at the very end** if ROE allows.
+
+**Focused NSE example (HTTP/SMB/TLS):**
+
+```bash
+nmap -sS -p 80,443,445 -sV --version-light \
+     --script=banner,http-title,http-headers,ssl-cert,smb-os-discovery \
+     -T1 --max-rate 10 --scan-delay 200ms \
+     -oA 03-nse-focus targets.txt
+```
+
+---
+
+## 5 Reducing SOC Triggers
+
+* **Human pacing**: Don’t hammer in bursts during sensitive times; stick to approved windows.
+* **Reuse results**: Parse XML instead of rescanning.
+* **Small ≠ noisy**: Multiple tiny scans spaced out are often less suspicious than one big sweep.
+* **Nmap fingerprints**: Many SOCs detect Nmap patterns. Timing, randomization, and low rate make you harder to spot. Avoid blasting dozens of NSE scripts at once.
+
+---
+
+## 6 Practical Playbooks
+
+### Playbook A — “Initial Quiet Footprint”
+
+1. Host discovery (SYN ping) with a small port set.
+2. Top 50 TCP ports on alive hosts with `-sS -sV --version-light`.
+3. Targeted **safe NSE** on HTTP/SMB/RDP/TLS.
+4. Top 10 UDP ports on high-value assets (DCs, jump hosts, DMZ).
+
+### Playbook B — “Windows-Heavy Minimal”
+
+1. Host discovery: `-PR` (LAN) + `-PS445,3389`.
+2. TCP scan: `-p 135,139,445,3389,5985,5986,1433,80,443` + `-sV --version-light`.
+3. NSE: `smb-os-discovery`, `rdp-enum-encryption`, `ssl-cert`, `http-title`.
+4. Targeted UDP if relevant (DNS, NTP, LDAPS).
+
+### Playbook C — “Max Evasion / Low Cadence”
+
+* `-T0/1`, `--max-rate 5–20`, `--scan-delay 200–500ms`.
+* `--randomize-hosts`, low parallelism.
+* Extremely limited port set, expand in small steps.
+
+---
+
+## 7 Outputs & Post-Processing
+
+* Always use `-oA`.
+* Extract from XML without rescanning:
+
+```bash
+# Extract hosts with port 445 open
+grep 'portid="445"' -B3 01-tcp-common.xml | grep 'addr addrtype="ipv4"' | awk -F'"' '{print $4}' | sort -u
+```
+
+* Build service-based lists (HTTP screenshots, SMB enum, etc.) without sweeping again.
+
+---
+
+## 8 Special Cases & Tips
+
+* **Aggressive rate limiting**: Increase `--scan-delay`, lower `--max-rate`, or break targets into chunks.
+* **Cloud WAF/IPS**: Minimal port scan first, then rely on application-layer checks. Intrusive NSE = fast alerts.
+* **Idle scan (-sI)**: Only if you find a suitable zombie host (rare in 2025, but unbeatable for stealth).
+* **Fragmentation**: Outdated, breaks MTU, often raises suspicion instead of hiding you.
+
+---
+
+## 9 Silent Checklist
+
+* [ ] ROE/ROA confirmed, approved window, dedicated jump box.
+* [ ] DNS under control.
+* [ ] Start with `-sn` (low-noise pings) on business-relevant ports.
+* [ ] Low-and-slow scans (`-T1`, low rate, delays, minimal parallelism).
+* [ ] Start with top ports, expand carefully.
+* [ ] Use `-sV --version-light` first; safe NSE scripts next.
+* [ ] UDP only if targeted, very slow.
+* [ ] Results saved (`-oA`) + post-processed from XML.
+* [ ] Avoid gimmicky evasions (decoys, fragmentation) unless really justified.
+* [ ] Coordinate with client/blue team: “assume breach” vs “assume stealth.”
+
+---
+
+## 10 End-to-End Examples
+
+### Example 1 — Minimal Web/RDP DMZ Enumeration
+
+```bash
+# Discovery
+nmap -sn -PS80,443,3389 --dns-servers 10.10.10.53 \
+     --randomize-hosts -T1 --max-rate 20 --scan-delay 100ms \
+     -oA dmz-hosts 203.0.113.0/24
+
+# Common TCP + light versioning
+nmap -sS -p 80,443,3389 -sV --version-light \
+     --randomize-hosts -T1 --max-rate 10 --scan-delay 200ms \
+     -oA dmz-tcp dmz-hosts.gnmap
+
+# Focused NSE (HTTP/RDP/TLS)
+nmap -sS -p 80,443,3389 -sV --version-light \
+     --script=http-title,http-headers,ssl-cert,rdp-enum-encryption \
+     -T1 --max-rate 8 --scan-delay 250ms \
+     -oA dmz-nse dmz-tcp.xml
+```
+
+### Example 2 — Internal Windows Segment (SMB/WinRM/SQL)
+
+```bash
+# ARP discovery (LAN)
+nmap -sn -PR -T1 --max-rate 30 --scan-delay 50ms -oA lan-hosts 10.20.30.0/24
+
+# Targeted TCP + versioning
+nmap -sS -p 135,139,445,3389,5985,5986,1433 -sV --version-light \
+     -T1 --max-rate 12 --scan-delay 200ms \
+     -oA win-tcp lan-hosts.xml
+
+# Light NSE (SMB/RDP/TLS)
+nmap --script=smb-os-discovery,rdp-enum-encryption,ssl-cert \
+     -sS -p 445,3389,5986 -sV --version-light \
+     -T1 --max-rate 8 --scan-delay 300ms \
+     -oA win-nse win-tcp.xml
+```
+
+---
+
+## 11 Limits & Pitfalls
+
+* **Too many TCP retransmits** = noise. Tune RTT and delays.
+* **NSE vuln scripts**: Trigger alerts or even crash services. Use sparingly, only if ROE allows.
+* **Decoys (-D)**: Can raise more suspicion than they hide.
+* **Application logs**: Even if the network sees little, apps (IIS, Apache, RDP, Exchange) log banners and probes. OPSEC isn’t just network-level.
+* **Idle scan**: Rarely practical today, tricky to interpret.
+
