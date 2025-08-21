@@ -1,0 +1,4 @@
+export default {
+    "CVE-2021-34473": "ProxyShell in Microsoft Exchange",
+    "CVE-2025-25257": "SQLi in FortiWeb Fabric Connector leading to RCE",
+}
