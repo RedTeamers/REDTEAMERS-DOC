@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx,.mdx"
   },
@@ -21,6 +22,7 @@
     "@types/react": "^18.2.66",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.5",
+    "next-sitemap": "^4.2.3",
     "typescript": "^5.4.5"
   }
 }

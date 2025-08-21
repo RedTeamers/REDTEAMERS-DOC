@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://redteamer.wiki
+
+# Sitemaps
+Sitemap: https://redteamer.wiki/sitemap.xml
