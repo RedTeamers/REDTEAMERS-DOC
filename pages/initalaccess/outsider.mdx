@@ -1,3 +1,7 @@
+import { Callout } from 'nextra/components'
+import ThemedImage from '@/components/ThemedImage'
+import Image from 'next/image'
+
 # Outsider Initial Access
 
 The **outsider perspective** represents the most common entry point for real-world attackers.  
@@ -21,6 +25,15 @@ These marketplaces sell **credentials, VPN sessions, RDP access, and even entire
   → password reuse becomes an easy path to corporate compromise.  
 - **Compromised infrastructure**  
   → misconfigured Citrix, exposed VPNs, weak RDP.  
+
+<ThemedImage
+  alt="Outsider Attacks"
+  darkSrc="/images/outsider_attackb.png"
+  lightSrc="/images/outsider_attackw.png"
+  width={1200}
+  height={360}
+/>
+
 
 For a Red Team, monitoring and simulating this ecosystem provides a **realistic attack surface**.
 
