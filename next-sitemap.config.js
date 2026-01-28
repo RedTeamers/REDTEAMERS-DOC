@@ -1,34 +1,50 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: 'https://redteamer.wiki',   // <-- ton domaine de prod
-  generateRobotsTxt: true,             // crée robots.txt
-  sitemapSize: 45000,                  // découpe auto si beaucoup de pages
-  priority: null,                      // laisse par défaut
+  siteUrl: 'https://redteamer.wiki',
+  generateRobotsTxt: true,
+  sitemapSize: 7000,
   changefreq: 'weekly',
+  priority: 0.7,
   exclude: [
-    // On exclut les routes non "pages" et techniques
     '/_meta',
     '/**/_meta',
     '/api/*',
     '/404',
-    '/sitemap.xml',      // si tu gardes une route custom, mais on va la supprimer (voir §4)
-    '/rss.xml'           // garde ta route RSS séparée
+    '/**/_app',
+    '/**/_meta'
   ],
-  // (Optionnel) si tu as des pages dynamiques/exotiques à ajouter manuellement :
-  additionalPaths: async (config) => {
-    const extra = []
-    // Exemple:
-    // extra.push(await config.transform(config, '/some-non-standard-path'))
-    return extra
+  robotsTxtOptions: {
+    policies: [
+      {
+        userAgent: '*',
+        allow: '/',
+      },
+    ],
+    additionalSitemaps: [
+      'https://redteamer.wiki/sitemap.xml',
+    ],
   },
   transform: async (config, path) => {
-    // Personnalise metadata par défaut ici si besoin
+    // Dynamically set priority based on path depth
+    let priority = config.priority
+    let changefreq = config.changefreq
+
+    if (path === '/') {
+      priority = 1.0
+      changefreq = 'daily'
+    } else if (path === '/CVE' || path === '/RTW' || path === '/initalaccess') {
+      priority = 0.9
+      changefreq = 'daily'
+    } else {
+      priority = 0.8
+    }
+
     return {
       loc: path,
-      changefreq: 'weekly',
-      priority: 0.7,
+      changefreq: changefreq,
+      priority: priority,
       lastmod: new Date().toISOString(),
-      alternateRefs: [] // i18n si tu en ajoutes
+      alternateRefs: config.alternateRefs ?? [],
     }
-  }
+  },
 }
